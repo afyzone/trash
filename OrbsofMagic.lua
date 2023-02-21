@@ -1,11 +1,35 @@
+local Players = game:GetService('Players')
+local Workspace = game:GetService('Workspace')
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local plr = Players.LocalPlayer
+local ohTable = {
+    'Reaper',
+    'Time',
+    'Illusion',
+    'Raven',
+    'Jester',
+    'Acceleration',
+    'Phoenix'
+}
+
+local check_inst; do
+    check_inst = function(table, inst)
+        for i,v in pairs(table) do
+            if v == inst then
+                return v
+            end
+        end
+    end
+end
+
 pcall(function()
-    while wait() do
-        game:GetService("ReplicatedStorage").ServerEvents.Magic.GT:FireServer()
-        for i, v in pairs(game:GetService("Workspace"):GetChildren()) do
-            if v:IsA("Part") and v.Parent.Name == Reaper and v.Parent.Name == Time and v.Parent.Name == Illusion and v.Parent.Name == Raven and v.Parent.Name == Jester and v.Parent.Name == Acceleration and v.Parent.Name == Phoenix then
+    while task.wait() do
+        ReplicatedStorage.ServerEvents.Magic.GT:FireServer()
+        for i, v in pairs(Workspace:GetChildren()) do
+            if v:IsA("Part") and check_inst(ohTable, v) and v:FindFirstChild('ClickDetector') then
                 fireclickdetector(v.ClickDetector)
-                wait(5)
-                game.Players.LocalPlayer:Kick("You got your orb")
+                repeat task.wait() until not v
+                plr:Kick("You got your orb")
             end
         end
     end
